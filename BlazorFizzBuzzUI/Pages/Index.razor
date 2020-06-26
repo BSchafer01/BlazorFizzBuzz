@@ -1,0 +1,66 @@
+﻿@page "/"
+
+<EditForm Model="@parameters" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator/>
+    <ValidationSummary Model="parameters"/>
+    <div class="container">
+        <label class="col-form-label">Start Number</label>
+        <InputNumber class="form-control" @bind-Value="parameters.Start"></InputNumber>
+        <ValidationMessage id="buildingMessage" For="@(() => parameters.Start)" class="text-danger" />
+
+        <label class="col-form-label">End Number</label>
+        <InputNumber class="form-control" @bind-Value="parameters.End"></InputNumber>
+        <ValidationMessage id="buildingMessage" For="@(() => parameters.End)" class="text-danger" />
+
+        <label class="col-form-label">Fizz Number</label>
+        <InputNumber class="form-control" @bind-Value="parameters.Fizz"></InputNumber>
+        <ValidationMessage id="buildingMessage" For="@(() => parameters.Fizz)" class="text-danger" />
+
+        <label class="col-form-label">Buzz Number</label>
+        <InputNumber class="form-control" @bind-Value="parameters.Buzz"></InputNumber>
+        <ValidationMessage id="buildingMessage" For="@(() => parameters.Buzz)" class="text-danger" />
+
+        <button type="submit" class="btn btn-primary grid-btn">FizzBuzz!!</button>
+
+    </div>
+</EditForm>
+
+<br />
+@if (results.Count > 0)
+{
+
+    <div class="letterlist">
+        @foreach (var res in results)
+        {
+            <p>@res.Result</p>
+        }
+    </div>
+
+}
+
+
+@code{
+    private ParametersModel parameters = new ParametersModel()
+    {
+        Start = 0,
+        End = 150,
+        Fizz = 3,
+        Buzz = 5
+    };
+    private List<ResultModel> results = new List<ResultModel>();
+
+
+    private void HandleValidSubmit()
+    {
+        results = new List<ResultModel>();
+        for (int i = parameters.Start; i <= parameters.End; i++)
+        {
+            ResultModel res = new ResultModel();
+            res.Number = i;
+            res.Fizz = i % parameters.Fizz;
+            res.Buzz = i % parameters.Buzz;
+            results.Add(res);
+        }
+    }
+
+}
